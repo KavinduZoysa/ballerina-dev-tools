@@ -25,4 +25,5 @@ module io.ballerina.flow.model.generator {
     requires com.google.gson;
 
     exports io.ballerina.flowmodelgenerator.core;
+    exports io.ballerina.servicegenerator.http;
 }

@@ -1,0 +1,36 @@
+{
+  "description": "Sample diagram node",
+  "diagram": {
+    "lineRange": {
+      "fileName": "service.bal",
+      "startLine": {
+        "line": 6,
+        "offset": 0
+      },
+      "endLine": {
+        "line": 12,
+        "offset": 1
+      }
+    },
+    "method": "get",
+    "path": "profile/quote",
+    "payloadType": "string",
+    "payloadName": "str",
+    "responseTypes": [
+      {
+        "name": "Name1",
+        "code": 200,
+        "messageType": "json",
+        "contentType": "application/json"
+      },
+      {
+        "name": "Name2",
+        "code": 200,
+        "messageType": "json",
+        "contentType": "application/json"
+      }
+    ]
+  },
+  "output": [
+  ]
+}
