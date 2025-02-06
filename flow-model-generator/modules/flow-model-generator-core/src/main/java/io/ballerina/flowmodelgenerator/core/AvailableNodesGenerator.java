@@ -22,15 +22,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import io.ballerina.compiler.api.ModuleID;
 import io.ballerina.compiler.api.SemanticModel;
+import io.ballerina.compiler.api.symbols.AnnotationAttachmentSymbol;
 import io.ballerina.compiler.api.symbols.ClassSymbol;
 import io.ballerina.compiler.api.symbols.FunctionSymbol;
 import io.ballerina.compiler.api.symbols.ModuleSymbol;
 import io.ballerina.compiler.api.symbols.Qualifier;
 import io.ballerina.compiler.api.symbols.Symbol;
 import io.ballerina.compiler.api.symbols.SymbolKind;
+import io.ballerina.compiler.api.symbols.TypeDescKind;
 import io.ballerina.compiler.api.symbols.TypeReferenceTypeSymbol;
 import io.ballerina.compiler.api.symbols.TypeSymbol;
 import io.ballerina.compiler.api.symbols.VariableSymbol;
+import io.ballerina.compiler.api.values.ConstantValue;
 import io.ballerina.compiler.syntax.tree.ModulePartNode;
 import io.ballerina.compiler.syntax.tree.Node;
 import io.ballerina.compiler.syntax.tree.NonTerminalNode;
@@ -53,6 +56,7 @@ import io.ballerina.tools.text.TextRange;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,6 +94,7 @@ public class AvailableNodesGenerator {
         List<Item> items = new ArrayList<>();
         items.addAll(getAvailableFlowNodes(position));
         items.addAll(LocalIndexCentral.getInstance().getFunctions());
+        items.addAll(getAvailableExternalNodes());
         return gson.toJsonTree(items).getAsJsonArray();
     }
 
@@ -115,6 +120,117 @@ public class AvailableNodesGenerator {
         }
         setDefaultNodes();
         return this.rootBuilder.build().items();
+    }
+
+    private List<Item> getAvailableExternalNodes() {
+        List<Symbol> moduleSymbols = this.semanticModel.moduleSymbols();
+        for (Symbol moduleSymbol : moduleSymbols) {
+            if (moduleSymbol.kind() != SymbolKind.MODULE) {
+                continue;
+            }
+            ModuleSymbol module = (ModuleSymbol) moduleSymbol;
+            setAvailableNodesForModule(module);
+        }
+        return this.rootBuilder.build().items();
+    }
+
+    private void setAvailableNodesForModule(ModuleSymbol moduleSymbol) {
+        List<AvailableNode> availableNodes = new ArrayList<>();
+        ModuleID id = moduleSymbol.id();
+        String org = id.orgName();
+        String mod = id.moduleName();
+        String version = id.version();
+
+        setAvailableNodesForExternalClasses(moduleSymbol.classes(), availableNodes, org, mod, version);
+        setAvailableNodesForExternalFunctions(moduleSymbol.functions(), availableNodes, org, mod, version);
+
+        if (availableNodes.isEmpty()) {
+            return;
+        }
+
+        Category.Builder catagoryBuilder = this.rootBuilder.stepIn(org + "/" + mod);
+        for (AvailableNode availableNode : availableNodes) {
+            catagoryBuilder.node(availableNode);
+        }
+    }
+
+    private void setAvailableNodesForExternalClasses(List<ClassSymbol> classes, List<AvailableNode> availableNodes,
+                                                     String org, String module, String version) {
+        for (ClassSymbol classSymbol : classes) {
+            AvailableNode availableNode = getAvailableNodesForExternalSymbols(classSymbol.annotAttachments(), org,
+                    module, version, classSymbol.getName().orElse(""), NodeKind.CLASS_INIT);
+            if (availableNode != null) {
+                availableNodes.add(availableNode);
+            }
+        }
+    }
+
+    private void setAvailableNodesForExternalFunctions(List<FunctionSymbol> funcSymbols,
+                                                       List<AvailableNode> availableNodes, String org, String module,
+                                                       String version) {
+        for (FunctionSymbol functionSymbol : funcSymbols) {
+            AvailableNode availableNode = getAvailableNodesForExternalSymbols(functionSymbol.annotAttachments(), org,
+                    module, version, functionSymbol.getName().orElse(""), NodeKind.FUNCTION_CALL);
+            if (availableNode != null) {
+                availableNodes.add(availableNode);
+            }
+        }
+    }
+
+    private AvailableNode getAvailableNodesForExternalSymbols(List<AnnotationAttachmentSymbol> annotationAttachments, String org,
+                                                              String module, String version, String symbolName,
+                                                              NodeKind kind) {
+        AnnotationAttachmentSymbol displayAnnotAttachment = displayAnnotAttachments(annotationAttachments);
+        if (displayAnnotAttachment == null) {
+            return null;
+        }
+        Optional<ConstantValue> optAttachmentValue = displayAnnotAttachment.attachmentValue();
+        if (optAttachmentValue.isEmpty()) {
+            return null;
+        }
+        ConstantValue attachmentValue = optAttachmentValue.get();
+        if (attachmentValue.valueType().typeKind() != TypeDescKind.RECORD) {
+            return null;
+        }
+        Object value = attachmentValue.value();
+        if (!(value instanceof HashMap<?, ?> valueMap)) {
+            return null;
+        }
+        Object labelValue = valueMap.get("label");
+        Object iconValue = valueMap.get("iconPath");
+        if (!(labelValue instanceof ConstantValue labelConstValue) ||
+                !(iconValue instanceof ConstantValue iconConstValue)) {
+            return null;
+        }
+        if (labelConstValue.valueType().typeKind() != TypeDescKind.STRING ||
+                iconConstValue.valueType().typeKind() != TypeDescKind.STRING) {
+            return null;
+        }
+        return new AvailableNode(
+                new Metadata.Builder<>(null)
+                        .label((String) labelConstValue.value())
+                        .icon((String) iconConstValue.value())
+                        .description(symbolName)
+                        .build(),
+                new Codedata.Builder<>(null)
+                        .node(kind)
+                        .org(org)
+                        .module(module)
+                        .version(version)
+                        .symbol(symbolName)
+                        .build(),
+                true
+        );
+    }
+
+    private AnnotationAttachmentSymbol displayAnnotAttachments(List<AnnotationAttachmentSymbol> annotationAttachments) {
+        for (AnnotationAttachmentSymbol annotationAttachment : annotationAttachments) {
+            Optional<String> optName = annotationAttachment.typeDescriptor().getName();
+            if (optName.isPresent() && optName.get().equals("display")) {
+                return annotationAttachment;
+            }
+        }
+        return null;
     }
 
     private void setAvailableDefaultNodes(NonTerminalNode node, SemanticModel semanticModel) {

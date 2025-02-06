@@ -45,6 +45,7 @@ public enum NodeKind {
     PARALLEL_FLOW,
     WAIT,
     DATA_MAPPER_CALL,
+    CLASS_INIT,
 
     // Branches
     CONDITIONAL,

@@ -18,9 +18,11 @@
 
 package io.ballerina.flowmodelgenerator.core.model.node;
 
+import io.ballerina.compiler.api.ModuleID;
 import io.ballerina.compiler.api.SemanticModel;
 import io.ballerina.compiler.api.symbols.FunctionSymbol;
 import io.ballerina.compiler.api.symbols.FunctionTypeSymbol;
+import io.ballerina.compiler.api.symbols.ModuleSymbol;
 import io.ballerina.compiler.api.symbols.Symbol;
 import io.ballerina.compiler.api.symbols.SymbolKind;
 import io.ballerina.compiler.api.symbols.TypeSymbol;
@@ -84,6 +86,14 @@ public class FunctionCall extends NodeBuilder {
                         DatabaseManager.FunctionKind.FUNCTION);
 
         if (functionResult.isEmpty()) {
+            WorkspaceManager workspaceManager = context.workspaceManager();
+            PackageUtil.loadProject(workspaceManager, context.filePath());
+            SemanticModel semanticModel = workspaceManager.semanticModel(context.filePath()).orElseThrow();
+            FunctionSymbol functionSymbol = getExternalFunction(semanticModel, codedata);
+            if (functionSymbol != null) {
+                handleExternalFunction(semanticModel, context, functionSymbol, codedata);
+                return;
+            }
             throw new RuntimeException("Function not found: " + codedata.symbol());
         }
 
@@ -111,6 +121,54 @@ public class FunctionCall extends NodeBuilder {
         }
     }
 
+    private FunctionSymbol getExternalFunction(SemanticModel semanticModel, Codedata codedata) {
+        String org = codedata.org();
+        String mod = codedata.module();
+        String version = codedata.version();
+        String name = codedata.symbol();
+        List<Symbol> symbols = semanticModel.moduleSymbols();
+        for (Symbol module : symbols) {
+            if (module.kind() != SymbolKind.MODULE) {
+                continue;
+            }
+            ModuleSymbol moduleSymbol = (ModuleSymbol) module;
+            ModuleID id = moduleSymbol.id();
+            if (!(id.moduleName() != null && id.moduleName().equals(mod)) ||
+                    !(id.orgName() != null && id.orgName().equals(org)) ||
+                    !(id.version() != null && id.version().equals(version))) {
+                continue;
+            }
+            List<FunctionSymbol> functionSymbols = moduleSymbol.functions();
+            for (FunctionSymbol functionSymbol : functionSymbols) {
+                Optional<String> optName = functionSymbol.getName();
+                if (optName.isPresent() && optName.get().equals(name)) {
+//                    FunctionTypeSymbol functionTypeSymbol = functionSymbol.typeDescriptor();
+//
+//                    metadata().label(name);
+//                    codedata()
+//                            .node(NodeKind.FUNCTION_CALL)
+//                            .org(org)
+//                            .module(mod)
+//                            .object(codedata.object())
+//                            .version(version)
+//                            .symbol(name);
+//
+//                    setCustomProperties(ParamUtils.buildFunctionParamResultMap(functionSymbol, semanticModel).values());
+//                    functionTypeSymbol.returnTypeDescriptor().ifPresent(returnType -> {
+//                        String returnTypeName = CommonUtils.getTypeSignature(semanticModel, returnType, true, moduleInfo);
+//                        setReturnTypeProperties(returnTypeName, context);
+//                    });
+//
+//                    if (containsErrorInReturnType(semanticModel, functionTypeSymbol) && FlowNodeUtil.withinDoClause(context)) {
+//                        properties().checkError(true);
+//                    }
+                    return functionSymbol;
+                }
+            }
+        }
+        return null;
+    }
+
     private void handleLocalFunction(TemplateContext context, Codedata codedata) {
         WorkspaceManager workspaceManager = context.workspaceManager();
         Project project = PackageUtil.loadProject(workspaceManager, context.filePath());
@@ -133,6 +191,30 @@ public class FunctionCall extends NodeBuilder {
                 .symbol(codedata.symbol());
 
         setCustomProperties(ParamUtils.buildFunctionParamResultMap(functionSymbol, semanticModel).values());
+        functionTypeSymbol.returnTypeDescriptor().ifPresent(returnType -> {
+            String returnTypeName = CommonUtils.getTypeSignature(semanticModel, returnType, true, moduleInfo);
+            setReturnTypeProperties(returnTypeName, context);
+        });
+
+        if (containsErrorInReturnType(semanticModel, functionTypeSymbol) && FlowNodeUtil.withinDoClause(context)) {
+            properties().checkError(true);
+        }
+    }
+
+    private void handleExternalFunction(SemanticModel semanticModel, TemplateContext context,
+                                        FunctionSymbol functionSymbol, Codedata codedata) {
+        String name = codedata.symbol();
+        metadata().label(name);
+        codedata()
+                .node(NodeKind.FUNCTION_CALL)
+                .org(codedata.org())
+                .module(codedata.module())
+                .object(codedata.object())
+                .version(codedata.version())
+                .symbol(name);
+
+        setCustomProperties(ParamUtils.buildFunctionParamResultMap(functionSymbol, semanticModel).values());
+        FunctionTypeSymbol functionTypeSymbol = functionSymbol.typeDescriptor();
         functionTypeSymbol.returnTypeDescriptor().ifPresent(returnType -> {
             String returnTypeName = CommonUtils.getTypeSignature(semanticModel, returnType, true, moduleInfo);
             setReturnTypeProperties(returnTypeName, context);
