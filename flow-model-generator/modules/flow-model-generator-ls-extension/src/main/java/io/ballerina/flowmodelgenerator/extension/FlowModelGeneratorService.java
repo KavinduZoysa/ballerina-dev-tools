@@ -22,48 +22,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.ballerina.compiler.api.SemanticModel;
+import io.ballerina.compiler.api.symbols.ClassSymbol;
+import io.ballerina.compiler.api.symbols.ModuleSymbol;
+import io.ballerina.compiler.api.symbols.Symbol;
+import io.ballerina.compiler.api.symbols.SymbolKind;
+import io.ballerina.compiler.syntax.tree.ExpressionNode;
 import io.ballerina.compiler.syntax.tree.ModulePartNode;
-import io.ballerina.flowmodelgenerator.core.AvailableNodesGenerator;
-import io.ballerina.flowmodelgenerator.core.ConnectorGenerator;
-import io.ballerina.flowmodelgenerator.core.CopilotContextGenerator;
-import io.ballerina.flowmodelgenerator.core.DeleteNodeHandler;
-import io.ballerina.flowmodelgenerator.core.EnclosedNodeFinder;
-import io.ballerina.flowmodelgenerator.core.ErrorHandlerGenerator;
-import io.ballerina.flowmodelgenerator.core.FunctionGenerator;
-import io.ballerina.flowmodelgenerator.core.ModelGenerator;
-import io.ballerina.flowmodelgenerator.core.ModuleNodeAnalyzer;
-import io.ballerina.flowmodelgenerator.core.NodeTemplateGenerator;
-import io.ballerina.flowmodelgenerator.core.OpenApiServiceGenerator;
-import io.ballerina.flowmodelgenerator.core.SourceGenerator;
-import io.ballerina.flowmodelgenerator.core.SuggestedComponentService;
-import io.ballerina.flowmodelgenerator.core.SuggestedModelGenerator;
+import io.ballerina.flowmodelgenerator.core.*;
 import io.ballerina.flowmodelgenerator.core.model.ModuleInfo;
-import io.ballerina.flowmodelgenerator.extension.request.ComponentDeleteRequest;
-import io.ballerina.flowmodelgenerator.extension.request.CopilotContextRequest;
-import io.ballerina.flowmodelgenerator.extension.request.EnclosedFuncDefRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FilePathRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelAvailableNodesRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelGeneratorRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelGetConnectorsRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelGetFunctionsRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelNodeTemplateRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelSourceGeneratorRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowModelSuggestedGenerationRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FlowNodeDeleteRequest;
-import io.ballerina.flowmodelgenerator.extension.request.FunctionDefinitionRequest;
-import io.ballerina.flowmodelgenerator.extension.request.OpenAPIServiceGenerationRequest;
-import io.ballerina.flowmodelgenerator.extension.request.SuggestedComponentRequest;
-import io.ballerina.flowmodelgenerator.extension.response.ComponentDeleteResponse;
-import io.ballerina.flowmodelgenerator.extension.response.CopilotContextResponse;
-import io.ballerina.flowmodelgenerator.extension.response.EnclosedFuncDefResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FlowModelAvailableNodesResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FlowModelGeneratorResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FlowModelGetConnectorsResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FlowModelNodeTemplateResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FlowModelSourceGeneratorResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FlowNodeDeleteResponse;
-import io.ballerina.flowmodelgenerator.extension.response.FunctionDefinitionResponse;
-import io.ballerina.flowmodelgenerator.extension.response.OpenApiServiceGenerationResponse;
+import io.ballerina.flowmodelgenerator.extension.request.*;
+import io.ballerina.flowmodelgenerator.extension.response.*;
 import io.ballerina.projects.Document;
 import io.ballerina.projects.DocumentId;
 import io.ballerina.projects.Module;
@@ -519,6 +487,26 @@ public class FlowModelGeneratorService implements ExtendedLanguageServerService 
                 ModulePartNode rootNode = document.syntaxTree().rootNode();
                 Optional<JsonElement> function = moduleNodeAnalyzer.findFunction(rootNode, request.functionName());
                 function.ifPresent(response::setFunctionDefinition);
+            } catch (Throwable e) {
+                response.setError(e);
+            }
+            return response;
+        });
+    }
+
+    @JsonRequest
+    public CompletableFuture<GetExternalNodesResponse> getExternalNodes(GetExternalNodesRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            GetExternalNodesResponse response = new GetExternalNodesResponse();
+            try {
+                Path filePath = Path.of(request.filePath());
+                this.workspaceManager.loadProject(filePath);
+                Optional<SemanticModel> semanticModel = this.workspaceManager.semanticModel(filePath);
+                if (semanticModel.isEmpty()) {
+                    return response;
+                }
+                ExternalNodesGenerator externalNodesGenerator = new ExternalNodesGenerator(semanticModel.get());
+                response.setCategories(externalNodesGenerator.getExternalNodes());
             } catch (Throwable e) {
                 response.setError(e);
             }
