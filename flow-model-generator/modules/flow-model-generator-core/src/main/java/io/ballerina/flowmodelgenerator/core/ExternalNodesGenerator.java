@@ -71,7 +71,10 @@ public class ExternalNodesGenerator {
                             .icon(CommonUtils.generateIcon(org, packageName, version))
                             .build();
                     Codedata codedata = new Codedata.Builder<>(null)
-                            .node(NodeKind.NEW_CONNECTION) // TODO: Node should be determined based on the annotation
+                            // TODO: Node should be determined based on the annotation
+                            // 1. Agent
+                            // 2. General client class
+                            .node(NodeKind.NEW_CONNECTION)
                             .org(org)
                             .module(packageName)
                             .object(NewConnectionBuilder.CLIENT_SYMBOL)
