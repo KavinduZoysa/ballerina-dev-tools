@@ -72,7 +72,7 @@ public class AgentBuilder extends CallBuilder {
                 .keyword(SyntaxKind.NEW_KEYWORD)
                 .stepOut()
                 .functionParameters(sourceBuilder.flowNode, Set.of(Property.VARIABLE_KEY, Property.TYPE_KEY,
-                        Property.SCOPE_KEY, Property.CHECK_ERROR_KEY), true);
+                        Property.SCOPE_KEY, Property.CHECK_ERROR_KEY, "additionalValues"), true);
 
         return sourceBuilder.textEdit().acceptImport().build();
     }

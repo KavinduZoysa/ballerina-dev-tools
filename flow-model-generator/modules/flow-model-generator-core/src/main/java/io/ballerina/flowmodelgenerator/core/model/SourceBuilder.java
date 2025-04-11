@@ -747,11 +747,12 @@ public class SourceBuilder {
         }
 
         public TokenBuilder descriptionDoc(String description) {
-            sb.append(SyntaxKind.HASH_TOKEN.stringValue())
-                    .append(WHITE_SPACE)
-                    .append(description);
-            if (!description.endsWith(System.lineSeparator())) {
-                sb.append(System.lineSeparator());
+            String[] splits = description.split(System.lineSeparator());
+            for (String split : splits) {
+                sb.append(SyntaxKind.HASH_TOKEN.stringValue())
+                        .append(WHITE_SPACE)
+                        .append(split)
+                        .append(System.lineSeparator());
             }
             return this;
         }
@@ -766,8 +767,11 @@ public class SourceBuilder {
                         .append(WHITE_SPACE)
                         .append("-")
                         .append(WHITE_SPACE)
-                        .append(description)
-                        .append(System.lineSeparator());
+                        .append(description);
+
+                if (!description.endsWith(System.lineSeparator())) {
+                    sb.append(System.lineSeparator());
+                }
             }
             return this;
         }

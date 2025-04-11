@@ -369,7 +369,7 @@ public class AgentsGenerator {
             Map<String, Property> properties = flowNode.properties();
             Set<String> keys = new LinkedHashSet<>(properties != null ? properties.keySet() : Set.of());
             keys.removeAll(Set.of(Property.VARIABLE_KEY, Property.TYPE_KEY, TARGET_TYPE, Property.CONNECTION_KEY,
-                    Property.CHECK_ERROR_KEY));
+                    Property.CHECK_ERROR_KEY, "additionalValues"));
             List<String> paramList = new ArrayList<>();
             for (String key : keys) {
                 Property property = properties.get(key);
@@ -453,7 +453,7 @@ public class AgentsGenerator {
             Map<String, Property> properties = flowNode.properties();
             Set<String> keys = new LinkedHashSet<>(properties != null ? properties.keySet() : Set.of());
             Set<String> ignoredKeys = new HashSet<>(List.of(Property.CONNECTION_KEY, Property.VARIABLE_KEY,
-                    Property.TYPE_KEY, TARGET_TYPE, Property.RESOURCE_PATH_KEY, Property.CHECK_ERROR_KEY));
+                    Property.TYPE_KEY, TARGET_TYPE, Property.RESOURCE_PATH_KEY, Property.CHECK_ERROR_KEY, "additionalValues"));
             keys.removeAll(ignoredKeys);
             List<String> paramList = new ArrayList<>();
             for (String key : keys) {
