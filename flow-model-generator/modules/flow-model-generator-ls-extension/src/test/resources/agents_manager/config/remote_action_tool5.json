@@ -1,0 +1,895 @@
+{
+  "source": "agent_1/agents.bal",
+  "name": "toolFunc",
+  "connection": "gmailClient",
+  "description": "Sample diagram node",
+  "toolDescription": "",
+  "diagram": {
+    "id": "31",
+    "metadata": {
+      "label": "get",
+      "description": "Returns events on the specified calendar.\n",
+      "icon": "https://bcentral-packageicons.azureedge.net/images/ballerinax_googleapis.gcalendar_4.0.1.png"
+    },
+    "codedata": {
+      "node": "RESOURCE_ACTION_CALL",
+      "org": "ballerinax",
+      "module": "googleapis.gcalendar",
+      "object": "Client",
+      "symbol": "get",
+      "isNew": true,
+      "lineRange": {
+        "fileName": "agents.bal",
+        "startLine": {
+          "line": 5,
+          "offset": 0
+        },
+        "endLine": {
+          "line": 5,
+          "offset": 0
+        }
+      }
+    },
+    "returning": false,
+    "properties": {
+      "connection": {
+        "metadata": {
+          "label": "Connection",
+          "description": "Connection to use"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "gcalendar:Client",
+        "value": "connection",
+        "optional": false,
+        "editable": false,
+        "advanced": false,
+        "hidden": false
+      },
+      "resourcePath": {
+        "metadata": {
+          "label": "Resource Path",
+          "description": "Resource Path"
+        },
+        "valueType": "EXPRESSION",
+        "value": "resourcePath",
+        "optional": false,
+        "editable": false,
+        "advanced": false,
+        "hidden": false,
+        "codedata": {
+          "originalName": "/calendars/[calendarId]/events"
+        }
+      },
+      "calendarId": {
+        "metadata": {
+          "label": "calendarId",
+          "description": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string",
+        "placeholder": "\"\"",
+        "optional": false,
+        "editable": true,
+        "advanced": false,
+        "hidden": false,
+        "codedata": {
+          "kind": "PATH_PARAM",
+          "originalName": "calendarId"
+        },
+        "typeMembers": [],
+        "value": "calendarId"
+      },
+      "alt": {
+        "metadata": {
+          "label": "alt",
+          "description": "Data format for the response"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "\"json\"|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "alt"
+        },
+        "typeMembers": [
+          {
+            "type": "\"json\"",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "alt"
+      },
+      "fields": {
+        "metadata": {
+          "label": "fields",
+          "description": "Selector specifying which fields to include in a partial response"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "fields"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "fields"
+      },
+      "key": {
+        "metadata": {
+          "label": "key",
+          "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "'key"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "key"
+      },
+      "oauth_token": {
+        "metadata": {
+          "label": "oauth_token",
+          "description": "OAuth 2.0 token for the current user"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "oauth_token"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "oauth_token"
+      },
+      "prettyPrint": {
+        "metadata": {
+          "label": "prettyPrint",
+          "description": "Returns response with indentations and line breaks"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "boolean|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "prettyPrint"
+        },
+        "typeMembers": [
+          {
+            "type": "boolean",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "prettyPrint"
+      },
+      "quotaUser": {
+        "metadata": {
+          "label": "quotaUser",
+          "description": "An opaque string that represents a user for quota purposes. Must not exceed 40 characters"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "quotaUser"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "quotaUser"
+      },
+      "eventTypes": {
+        "metadata": {
+          "label": "eventTypes",
+          "description": "Event types to return. Optional. Possible values are: \n- \"default\" \n- \"focusTime\" \n- \"outOfOffice\" \n- \"workingLocation\"This parameter can be repeated multiple times to return events of different types. Currently, these are the only allowed values for this field: \n- [\"default\", \"focusTime\", \"outOfOffice\"] \n- [\"default\", \"focusTime\", \"outOfOffice\", \"workingLocation\"] \n- [\"workingLocation\"] The default is [\"default\", \"focusTime\", \"outOfOffice\"]\nAdditional combinations of these four event types will be made available in later releases"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string[]|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "eventTypes"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "ARRAY_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "eventTypes"
+      },
+      "iCalUID": {
+        "metadata": {
+          "label": "iCalUID",
+          "description": "Specifies an event ID in the iCalendar format to be provided in the response. Optional. Use this if you want to search for an event by its iCalendar ID"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "iCalUID"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "iCalUID"
+      },
+      "maxAttendees": {
+        "metadata": {
+          "label": "maxAttendees",
+          "description": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "int|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "maxAttendees"
+        },
+        "typeMembers": [
+          {
+            "type": "int",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "maxAttendees"
+      },
+      "maxResults": {
+        "metadata": {
+          "label": "maxResults",
+          "description": "Maximum number of events returned on one result page. The number of events in the resulting page may be less than this value, or none at all, even if there are more events matching the query. Incomplete pages can be detected by a non-empty nextPageToken field in the response. By default the value is 250 events. The page size can never be larger than 2500 events. Optional"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "int|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "maxResults"
+        },
+        "typeMembers": [
+          {
+            "type": "int",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "maxResults"
+      },
+      "orderBy": {
+        "metadata": {
+          "label": "orderBy",
+          "description": "The order of the events returned in the result. Optional. The default is an unspecified, stable order"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "\"updated\"|()|\"startTime\"",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "orderBy"
+        },
+        "typeMembers": [
+          {
+            "type": "\"updated\"",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "\"startTime\"",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "orderBy"
+      },
+      "pageToken": {
+        "metadata": {
+          "label": "pageToken",
+          "description": "Token specifying which result page to return. Optional"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "pageToken"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "pageToken"
+      },
+      "privateExtendedProperty": {
+        "metadata": {
+          "label": "privateExtendedProperty",
+          "description": "Extended properties constraint specified as propertyName=value. Matches only private properties. This parameter might be repeated multiple times to return events that match all given constraints"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string[]|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "privateExtendedProperty"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "ARRAY_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "privateExtendedProperty"
+      },
+      "q": {
+        "metadata": {
+          "label": "q",
+          "description": "Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. Optional"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "q"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "q"
+      },
+      "sharedExtendedProperty": {
+        "metadata": {
+          "label": "sharedExtendedProperty",
+          "description": "Extended properties constraint specified as propertyName=value. Matches only shared properties. This parameter might be repeated multiple times to return events that match all given constraints"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string[]|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "sharedExtendedProperty"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "ARRAY_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "sharedExtendedProperty"
+      },
+      "showDeleted": {
+        "metadata": {
+          "label": "showDeleted",
+          "description": "Whether to include deleted events (with status equals \"cancelled\") in the result. Cancelled instances of recurring events (but not the underlying recurring event) will still be included if showDeleted and singleEvents are both False. If showDeleted and singleEvents are both True, only single instances of deleted events (but not the underlying recurring events) are returned. Optional. The default is False"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "boolean|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "showDeleted"
+        },
+        "typeMembers": [
+          {
+            "type": "boolean",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "showDeleted"
+      },
+      "showHiddenInvitations": {
+        "metadata": {
+          "label": "showHiddenInvitations",
+          "description": "Whether to include hidden invitations in the result. Optional. The default is False"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "boolean|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "showHiddenInvitations"
+        },
+        "typeMembers": [
+          {
+            "type": "boolean",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "showHiddenInvitations"
+      },
+      "singleEvents": {
+        "metadata": {
+          "label": "singleEvents",
+          "description": "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves. Optional. The default is False"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "boolean|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "singleEvents"
+        },
+        "typeMembers": [
+          {
+            "type": "boolean",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "singleEvents"
+      },
+      "syncToken": {
+        "metadata": {
+          "label": "syncToken",
+          "description": "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All events deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False\nThere are several query parameters that cannot be specified together with nextSyncToken to ensure consistency of the client state\nThese are: \n- iCalUID \n- orderBy \n- privateExtendedProperty \n- q \n- sharedExtendedProperty \n- timeMin \n- timeMax \n- updatedMin All other query parameters should be the same as for the initial synchronization to avoid undefined behavior. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken\nLearn more about incremental synchronization\nOptional. The default is to return all entries"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "syncToken"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "syncToken"
+      },
+      "timeMax": {
+        "metadata": {
+          "label": "timeMax",
+          "description": "Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "timeMax"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "timeMax"
+      },
+      "timeMin": {
+        "metadata": {
+          "label": "timeMin",
+          "description": "Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMax is set, timeMin must be smaller than timeMax"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "timeMin"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "timeMin"
+      },
+      "timeZone": {
+        "metadata": {
+          "label": "timeZone",
+          "description": "Time zone used in the response. Optional. The default is the time zone of the calendar"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "timeZone"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "timeZone"
+      },
+      "updatedMin": {
+        "metadata": {
+          "label": "updatedMin",
+          "description": "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time"
+        },
+        "valueType": "EXPRESSION",
+        "valueTypeConstraint": "string|()",
+        "placeholder": "()",
+        "optional": true,
+        "editable": true,
+        "advanced": true,
+        "hidden": false,
+        "codedata": {
+          "kind": "DEFAULTABLE",
+          "originalName": "updatedMin"
+        },
+        "typeMembers": [
+          {
+            "type": "string",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          },
+          {
+            "type": "()",
+            "packageInfo": "",
+            "kind": "BASIC_TYPE",
+            "selected": false
+          }
+        ],
+        "value": "updatedMin"
+      },
+      "type": {
+        "metadata": {
+          "label": "Variable Type",
+          "description": "Type of the variable"
+        },
+        "valueType": "TYPE",
+        "value": "gcalendar:Events",
+        "placeholder": "var",
+        "optional": false,
+        "editable": false,
+        "advanced": false,
+        "hidden": false,
+        "codedata": {}
+      },
+      "variable": {
+        "metadata": {
+          "label": "Variable Name",
+          "description": "Name of the variable"
+        },
+        "valueType": "IDENTIFIER",
+        "value": "gcalendarEvents",
+        "optional": false,
+        "editable": true,
+        "advanced": false,
+        "hidden": false
+      },
+      "checkError": {
+        "metadata": {
+          "label": "Check Error",
+          "description": "Trigger error flow"
+        },
+        "valueType": "FLAG",
+        "value": true,
+        "optional": false,
+        "editable": true,
+        "advanced": true,
+        "hidden": false
+      }
+    },
+    "flags": 0
+  },
+  "output": {
+    "agent_1/agents.bal": [
+      {
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 0
+          }
+        },
+        "newText": "import ballerinax/googleapis.gcalendar;"
+      },
+      {
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 0
+          }
+        },
+        "newText": "# Returns events on the specified calendar.\n# + calendarId - Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword\n# + alt - Data format for the response\n# + fields - Selector specifying which fields to include in a partial response\n# + key - API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token\n# + oauth_token - OAuth 2.0 token for the current user\n# + prettyPrint - Returns response with indentations and line breaks\n# + quotaUser - An opaque string that represents a user for quota purposes. Must not exceed 40 characters\n# + eventTypes - Event types to return. Optional. Possible values are: \n# - \"default\" \n# - \"focusTime\" \n# - \"outOfOffice\" \n# - \"workingLocation\"This parameter can be repeated multiple times to return events of different types. Currently, these are the only allowed values for this field: \n# - [\"default\", \"focusTime\", \"outOfOffice\"] \n# - [\"default\", \"focusTime\", \"outOfOffice\", \"workingLocation\"] \n# - [\"workingLocation\"] The default is [\"default\", \"focusTime\", \"outOfOffice\"]\n# Additional combinations of these four event types will be made available in later releases\n# + iCalUID - Specifies an event ID in the iCalendar format to be provided in the response. Optional. Use this if you want to search for an event by its iCalendar ID\n# + maxAttendees - The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional\n# + maxResults - Maximum number of events returned on one result page. The number of events in the resulting page may be less than this value, or none at all, even if there are more events matching the query. Incomplete pages can be detected by a non-empty nextPageToken field in the response. By default the value is 250 events. The page size can never be larger than 2500 events. Optional\n# + orderBy - The order of the events returned in the result. Optional. The default is an unspecified, stable order\n# + pageToken - Token specifying which result page to return. Optional\n# + privateExtendedProperty - Extended properties constraint specified as propertyName=value. Matches only private properties. This parameter might be repeated multiple times to return events that match all given constraints\n# + q - Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. Optional\n# + sharedExtendedProperty - Extended properties constraint specified as propertyName=value. Matches only shared properties. This parameter might be repeated multiple times to return events that match all given constraints\n# + showDeleted - Whether to include deleted events (with status equals \"cancelled\") in the result. Cancelled instances of recurring events (but not the underlying recurring event) will still be included if showDeleted and singleEvents are both False. If showDeleted and singleEvents are both True, only single instances of deleted events (but not the underlying recurring events) are returned. Optional. The default is False\n# + showHiddenInvitations - Whether to include hidden invitations in the result. Optional. The default is False\n# + singleEvents - Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves. Optional. The default is False\n# + syncToken - Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All events deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False\n# There are several query parameters that cannot be specified together with nextSyncToken to ensure consistency of the client state\n# These are: \n# - iCalUID \n# - orderBy \n# - privateExtendedProperty \n# - q \n# - sharedExtendedProperty \n# - timeMin \n# - timeMax \n# - updatedMin All other query parameters should be the same as for the initial synchronization to avoid undefined behavior. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken\n# Learn more about incremental synchronization\n# Optional. The default is to return all entries\n# + timeMax - Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin\n# + timeMin - Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMax is set, timeMin must be smaller than timeMax\n# + timeZone - Time zone used in the response. Optional. The default is the time zone of the calendar\n# + updatedMin - Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time\n@ai:AgentTool\n@display {label: \"\",iconPath: \"https://bcentral-packageicons.azureedge.net/images/ballerinax_googleapis.gcalendar_4.0.1.png\"}\nisolated function toolFunc( string calendarId, \"json\"|() alt, string|() fields, string|() key, string|() oauth_token, boolean|() prettyPrint, string|() quotaUser, string[]|() eventTypes, string|() iCalUID, int|() maxAttendees, int|() maxResults, \"updated\"|()|\"startTime\" orderBy, string|() pageToken, string[]|() privateExtendedProperty, string|() q, string[]|() sharedExtendedProperty, boolean|() showDeleted, boolean|() showHiddenInvitations, boolean|() singleEvents, string|() syncToken, string|() timeMax, string|() timeMin, string|() timeZone, string|() updatedMin) returns gcalendar:Events| error { gcalendar:Events gcalendarEvents = check gmailClient-> /calendars/[calendarId]/events. get( alt, fields, key, oauth_token, prettyPrint, quotaUser, eventTypes, iCalUID, maxAttendees, maxResults, orderBy, pageToken, privateExtendedProperty, q, sharedExtendedProperty, showDeleted, showHiddenInvitations, singleEvents, syncToken, timeMax, timeMin, timeZone, updatedMin) ;\nreturn gcalendarEvents;\n}"
+      }
+    ]
+  }
+}

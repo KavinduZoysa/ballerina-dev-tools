@@ -51,7 +51,7 @@
       "userId": {
         "metadata": {
           "label": "userId",
-          "description": "The user's email address. The special value `me` can be used to indicate the authenticated user."
+          "description": "The user's email address. \nThe special value `me` can\n be used to indicate the authenticated user."
         },
         "valueType": "EXPRESSION",
         "valueTypeConstraint": "string",
